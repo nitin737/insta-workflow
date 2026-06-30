@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Carousel</title>
+    <style>
+        body { margin: 0; padding: 0; display: flex; flex-direction: row; width: 7560px; height: 1080px; }
+        .slide { width: 1080px; height: 1080px; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #1a1a1a; color: white; font-family: sans-serif; padding: 40px; box-sizing: border-box; }
+        .title { font-size: 64px; font-weight: bold; margin-bottom: 20px; }
+        .content { font-size: 32px; text-align: center; }
+        .code { margin-top: 20px; background: #333; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 24px; }
+    </style>
+</head>
+<body>
+    <div class="slide" th:each="slide : ${carousel.slides}">
+        <div class="title" th:text="${slide.title}">Title</div>
+        <div class="content" th:text="${slide.content}">Content</div>
+        <div class="code" th:if="${slide.code != null and !slide.code.isEmpty()}" th:text="${slide.code}">Code</div>
+    </div>
+</body>
+</html>
