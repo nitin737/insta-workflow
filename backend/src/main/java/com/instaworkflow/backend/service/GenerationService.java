@@ -2,29 +2,36 @@ package com.instaworkflow.backend.service;
 
 import com.instaworkflow.backend.dto.CarouselData;
 import com.instaworkflow.backend.dto.GenerationRequest;
+import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.converter.BeanOutputConverter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Map;
 
 @Service
 public class GenerationService {
 
-    public CarouselData generateCarousel(GenerationRequest request) {
-        // Placeholder for Gemini API call
-        // We will simulate a response here for now as requested by the plan.
-        
-        return new CarouselData(
-            List.of(
-                new CarouselData.Slide("Title 1", "Content 1 for " + request.topic(), "code 1"),
-                new CarouselData.Slide("Title 2", "Content 2", "code 2"),
-                new CarouselData.Slide("Title 3", "Content 3", "code 3"),
-                new CarouselData.Slide("Title 4", "Content 4", "code 4"),
-                new CarouselData.Slide("Title 5", "Content 5", "code 5"),
-                new CarouselData.Slide("Title 6", "Content 6", "code 6"),
-                new CarouselData.Slide("Title 7", "Content 7", "code 7")
-            ),
-            "Generated caption for " + request.topic(),
-            List.of("#" + request.pillar().replaceAll("\\s", ""), "#backend")
-        );
+    private final ChatModel chatModel;
+
+    @Value("classpath:gemini-carousel-prompt-1.md")
+    private Resource promptResource;
+
+    public GenerationService(ChatModel chatModel) {
+        this.chatModel = chatModel;
+    }
+
+    public CarouselData generateCarouselJSON(GenerationRequest request) {
+        BeanOutputConverter<CarouselData> converter = new BeanOutputConverter<>(CarouselData.class);
+
+        PromptTemplate promptTemplate = new PromptTemplate(promptResource);
+        Prompt prompt = promptTemplate.create(Map.of(
+                "topic", request.topic()));
+
+        String response = chatModel.call(prompt).getResult().getOutput().getText();
+        return converter.convert(response);
     }
 }

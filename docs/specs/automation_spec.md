@@ -64,8 +64,8 @@ Since your `GEMINI_PROMPT.md` is already perfect, we just wrap it in an API.
 - **Internal Logic**:
   1. Fetch the system prompt from `GEMINI_PROMPT.md`.
   2. Inject the user's `topic` and `pillar`.
-  3. Call `gemini-1.5-pro` or `gemini-2.0-flash` with JSON response enabled.
-  4. Validate the response against a **Java Record/DTO with Bean Validation (Jackson)** (ensuring exactly 7 slides, `title`, `content`, `code` fields exist).
+  3. Call `gemini-1.5-pro-latest` or `gemini-2.0-flash` with JSON response enabled.
+  4. Validate the response against a **Java Record/DTO with Bean Validation (Jackson)** (ensuring a 5-slide schema matching `gemini-carousel-prompt-1.md`).
   5. **Enrichment**: Use a Java syntax highlighter (e.g., Jygments or custom parsing) to add ANSI or HTML color tokens to the code blocks (your HTML renderer can consume these).
   6. Generate a **Caption** and **Hashtag set** dynamically (e.g., 5 niche tags + 3 broad tags based on the pillar).
 - **Output**: Save the enriched JSON to a database with status `generated`.
