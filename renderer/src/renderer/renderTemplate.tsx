@@ -24,16 +24,17 @@ type RenderTemplateOptions = {
   templateName: string;
   data: any;
   cssPath?: string;
+  isTemplate?: boolean;
 };
 
-export async function renderTemplate({ templateName, data, cssPath }: RenderTemplateOptions) {
+export async function renderTemplate({ templateName, data, cssPath, isTemplate = false }: RenderTemplateOptions) {
   const Component = templates[templateName];
   if (!Component) {
     throw new Error(`Template ${templateName} not found`);
   }
 
   // Render React component to HTML string
-  const html = ReactDOMServer.renderToStaticMarkup(<Component {...data} />);
+  const html = ReactDOMServer.renderToStaticMarkup(<Component {...data} isTemplate={isTemplate} />);
   
   let css = '';
   if (cssPath && fs.existsSync(cssPath)) {

@@ -12,6 +12,9 @@ async function main() {
   const cssPathModern = path.join(__dirname, '..', 'dist', 'styles.css');
   const outputDir = path.join(__dirname, 'output');
 
+  // Check if we are running in template generation mode
+  const isTemplateMode = process.env.TEMPLATE_MODE === 'true';
+
   // Read data
   const dataRaw = fs.readFileSync(dataPath, 'utf-8');
   const data = JSON.parse(dataRaw);
@@ -21,6 +24,8 @@ async function main() {
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
+
+  console.log(`Starting generation (Template Mode: ${isTemplateMode})`);
 
   // Iterate over slides and render
   for (let i = 0; i < slides.length; i++) {
@@ -39,11 +44,13 @@ async function main() {
         templateName,
         data: actualData,
         cssPath,
+        isTemplate: isTemplateMode,
       });
 
-      const outputPath = path.join(outputDir, `slide-${i + 1}.html`);
+      const fileName = isTemplateMode ? `slide-${i + 1}.template.html` : `slide-${i + 1}.html`;
+      const outputPath = path.join(outputDir, fileName);
       fs.writeFileSync(outputPath, finalHtml);
-      console.log(`Saved slide-${i + 1}.html`);
+      console.log(`Saved ${fileName}`);
     } catch (error) {
       console.error(`Failed to render slide ${i + 1}:`, error);
     }

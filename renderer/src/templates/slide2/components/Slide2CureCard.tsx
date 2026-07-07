@@ -1,11 +1,13 @@
 import React from 'react';
+import { TemplateArray } from '../../../components/TemplateArray';
 
 export interface Slide2CureCardProps {
   cure: string;
   features: string[];
+  isTemplate?: boolean;
 }
 
-export default function Slide2CureCard({ cure, features }: Slide2CureCardProps) {
+export default function Slide2CureCard({ cure, features, isTemplate = false }: Slide2CureCardProps) {
   return (
     <div className="s2-card s2-card--after">
       <div className="s2-card-accent s2-card-accent--after"></div>
@@ -16,12 +18,16 @@ export default function Slide2CureCard({ cure, features }: Slide2CureCardProps) 
       <div className="s2-point-text" style={{ marginTop: '4px', color: 'rgba(248, 250, 252, 0.85)' }}>{cure}</div>
       
       <ul className="s2-checkpoint-list" style={{ marginTop: '16px' }}>
-        {features.map((pt: any, i: number) => (
-          <li key={i} className="s2-checkpoint-item" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-            <span className="s2-checkpoint-icon">✅</span>
-            <span className="s2-checkpoint-text" style={{ fontSize: '1.1rem', color: '#cbd5e1' }}>{pt}</span>
-          </li>
-        ))}
+        <TemplateArray name="features" items={features} isTemplate={isTemplate}>
+          {(pt, i) => (
+            <li key={i} className="s2-checkpoint-item" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <span className="s2-checkpoint-icon">✅</span>
+              <span className="s2-checkpoint-text" style={{ fontSize: '1.1rem', color: '#cbd5e1' }}>
+                {isTemplate ? "{{this}}" : pt}
+              </span>
+            </li>
+          )}
+        </TemplateArray>
       </ul>
     </div>
   );

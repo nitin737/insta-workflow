@@ -17,15 +17,16 @@ export interface Slide1Props {
   tags?: string[];
   license?: string;
   activity?: string;
-  watchers?: number;
-  forks?: number;
+  watchers?: number | string;
+  forks?: number | string;
   latestRelease?: string;
-  contributorsCount?: number;
-  langGoPct?: number;
-  langOtherPct?: number;
+  contributorsCount?: number | string;
+  langGoPct?: number | string;
+  langOtherPct?: number | string;
   backgroundImage?: string;
   headerTheme?: string;
   handle?: string;
+  isTemplate?: boolean;
 }
 
 export default function Slide1({
@@ -47,7 +48,8 @@ export default function Slide1({
   langOtherPct = 10.0,
   backgroundImage = "src/assets/slide1-bg.jpg",
   headerTheme,
-  handle = "@golang_verse"
+  handle = "@golang_verse",
+  isTemplate = false,
 }: Slide1Props) {
   // Convert relative path to absolute or correctly resolve for renderer
   // Note: For static HTML rendering in Puppeteer, absolute paths or base64 are safest.
@@ -59,39 +61,39 @@ export default function Slide1({
       slideNumber={1}
       backgroundImage={backgroundImage}
       showHeader={false}
-      handle={handle}
+      handle={isTemplate ? "{{handle}}" : handle}
       footerAction="Swipe →"
     >
       <div className="glow-accent-1"></div>
 
       <GithubHeader 
         headerTheme={headerTheme} 
-        owner={owner} 
-        repo={repo} 
-        stars={stars} 
+        owner={isTemplate ? "{{owner}}" : owner} 
+        repo={isTemplate ? "{{repo}}" : repo} 
+        stars={isTemplate ? "{{stars}}" : stars} 
       />
 
       <div className="github-hero-center">
         <GithubHero 
-          bigTitle={bigTitle} 
-          description={description} 
-          highlight={highlight} 
+          bigTitle={isTemplate ? "{{bigTitle}}" : bigTitle} 
+          description={isTemplate ? "{{description}}" : description} 
+          highlight={isTemplate ? "{{highlightedText}}" : highlight} 
         />
 
         <GithubStats 
-          watchers={watchers} 
-          forks={forks} 
-          latestRelease={latestRelease} 
+          watchers={isTemplate ? "{{watchers}}" : watchers as any} 
+          forks={isTemplate ? "{{forks}}" : forks as any} 
+          latestRelease={isTemplate ? "{{latestRelease}}" : latestRelease} 
         />
       </div>
 
       <GithubLanguageBar 
-        langGoPct={langGoPct} 
-        langOtherPct={langOtherPct} 
+        langGoPct={isTemplate ? "{{langGoPct}}" : langGoPct as any} 
+        langOtherPct={isTemplate ? "{{langOtherPct}}" : langOtherPct as any} 
       />
       
       <GithubContributors 
-        contributorsCount={contributorsCount} 
+        contributorsCount={isTemplate ? "{{contributorsCount}}" : contributorsCount as any} 
       />
     </SlideWrapper>
   );

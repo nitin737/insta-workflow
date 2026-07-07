@@ -23,12 +23,23 @@ Ensure you have Node.js installed (v18+ recommended).
 
 2. **Generate HTML files**:
    ```bash
+   # Standard mode (visual preview with sample.json)
    npm run generate
+   
+   # Template mode (Mustache template generation for Java)
+   $env:TEMPLATE_MODE="true"; npm run generate  # For Windows PowerShell
+   # Or for Linux/Mac:
+   # TEMPLATE_MODE=true npm run generate
    ```
    This command will:
    - Build the Tailwind CSS file.
    - Run the renderer script (`src/index.ts`).
    - Output the final HTML slides into the `src/output/` directory.
+
+## Testing Output Types
+
+- Run the renderer in standard mode (`npm run generate`) to verify the React previews still work perfectly with sample.json.
+- Run the renderer in template mode (`$env:TEMPLATE_MODE="true"; npm run generate`) and inspect the output HTML files. They will contain the placeholders and logic syntax for Java injection.
 
 ## Project Structure
 
