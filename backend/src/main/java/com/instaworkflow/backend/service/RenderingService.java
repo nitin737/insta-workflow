@@ -1,22 +1,37 @@
 package com.instaworkflow.backend.service;
 
 import com.instaworkflow.backend.dto.CarouselData;
+import com.instaworkflow.backend.service.storage.StorageService;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType;
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import com.microsoft.playwright.Locator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
-import com.instaworkflow.backend.service.storage.StorageService;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 @Service
 public class RenderingService {
+
+    private static final Logger log = LoggerFactory.getLogger(RenderingService.class);
+
+    private static final int VIEWPORT_WIDTH = 1080;
+    private static final int VIEWPORT_HEIGHT = 1080;
+    private static final String BASE_URL = "http://localhost:8080/";
+    private static final String DEFAULT_TEMPLATE = "v1";
 
     private final TemplateEngine templateEngine;
     private final StorageService storageService;
@@ -27,54 +42,88 @@ public class RenderingService {
     }
 
     public List<String> renderCarousel(CarouselData data, String templateName) {
-        Context context = new Context();
-        context.setVariable("carousel", data);
+        var runId = UUID.randomUUID().toString().substring(0, 8);
+        log.info("Starting carousel rendering with runId: {}", runId);
 
-        List<String> outputFiles = new ArrayList<>();
-        String runId = UUID.randomUUID().toString();
+        var baseTemplate = (templateName != null && !templateName.isBlank()) ? templateName : DEFAULT_TEMPLATE;
 
-        try (Playwright playwright = Playwright.create()) {
-            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
-            // Viewport must match the slide size, Playwright defaults to 1280x720, we need
-            // 1080x1080
-            Page page = browser.newPage(new Browser.NewPageOptions()
-                    .setViewportSize(1080, 1080)
-                    .setBaseURL("http://localhost:8080/"));
+        try (var playwright = Playwright.create();
+                var executor = Executors.newVirtualThreadPerTaskExecutor()) {
 
-            int numSlides = 5;
-            for (int i = 0; i < numSlides; i++) {
-                String slideTemplate = "v1/slide-" + (i + 1) + ".template";
+            var launchOptions = new BrowserType.LaunchOptions().setHeadless(true);
+            try (var browser = playwright.chromium().launch(launchOptions);
+                    var context = browser.newContext(new Browser.NewContextOptions()
+                            .setViewportSize(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)
+                            .setBaseURL(BASE_URL));
+                    var page = context.newPage()) {
 
-                Object slideData = switch (i) {
-                    case 0 -> data.slide1();
-                    case 1 -> data.slide2();
-                    case 2 -> data.slide3();
-                    case 3 -> data.slide4();
-                    case 4 -> data.slide5();
-                    default -> null;
-                };
-                context.setVariable("slide", slideData);
+                var slides = Arrays.asList(
+                        data.slide1(),
+                        data.slide2(),
+                        data.slide3(),
+                        data.slide4(),
+                        data.slide5());
 
-                String html = templateEngine.process(slideTemplate, context);
+                var uploadTasks = new ArrayList<Future<String>>();
 
-                page.setContent(html);
-                page.waitForLoadState();
+                for (int i = 0; i < slides.size(); i++) {
+                    int slideNumber = i + 1;
+                    var slideData = slides.get(i);
 
-                String fileName = "slide_" + runId + "_" + (i + 1);
+                    if (slideData == null) {
+                        log.warn("No data for slide {}, skipping.", slideNumber);
+                        continue;
+                    }
 
-                Locator slideLocator = page.locator("#slide-" + (i + 1));
-                slideLocator.scrollIntoViewIfNeeded();
-                byte[] screenshotBytes = slideLocator.screenshot();
+                    byte[] screenshotBytes = renderSlideToBytes(page, data, slideData, slideNumber, baseTemplate);
+                    var safeTopic = data.topic() != null ? data.topic().replaceAll("[^a-zA-Z0-9-_]", "").toLowerCase()
+                            : "topic";
+                    var fileName = "%s_slide_%d_%s".formatted(safeTopic, slideNumber, runId);
 
-                try {
-                    String urlOrPath = storageService.saveImage(screenshotBytes, fileName);
-                    outputFiles.add(urlOrPath);
-                } catch (Exception e) {
-                    throw new RuntimeException("Failed to save or upload slide: " + fileName, e);
+                    // Submit IO-bound storage operations to virtual threads
+                    uploadTasks.add(executor.submit(() -> storageService.saveImage(screenshotBytes, fileName)));
                 }
-            }
-        }
 
-        return outputFiles;
+                // Gather all completed upload results
+                return uploadTasks.stream()
+                        .map(this::getFutureResult)
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList());
+            }
+        } catch (Exception e) {
+            log.error("Carousel rendering process failed for runId: {}", runId, e);
+            throw new RuntimeException("Failed to render carousel: " + runId, e);
+        }
+    }
+
+    private byte[] renderSlideToBytes(Page page, CarouselData carouselData, Object slideData, int slideNumber,
+            String baseTemplate) {
+        var slideTemplate = "%s/slide-%d.template".formatted(baseTemplate, slideNumber);
+
+        var context = new Context();
+        context.setVariable("carousel", carouselData);
+        context.setVariable("slide", slideData);
+
+        var html = templateEngine.process(slideTemplate, context);
+
+        page.setContent(html);
+        page.waitForLoadState();
+
+        var slideLocator = page.locator("#slide-" + slideNumber);
+        slideLocator.scrollIntoViewIfNeeded();
+        return slideLocator.screenshot();
+    }
+
+    private String getFutureResult(Future<String> future) {
+        try {
+            return future.get();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.error("Image upload task was interrupted", e);
+            throw new RuntimeException("Image upload task was interrupted", e);
+        } catch (ExecutionException e) {
+            log.error("Failed to retrieve saved image url", e);
+            throw new RuntimeException("Image upload task failed", e.getCause() != null ? e.getCause() : e);
+        }
     }
 }

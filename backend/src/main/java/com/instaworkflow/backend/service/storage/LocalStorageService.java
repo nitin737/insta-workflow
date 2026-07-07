@@ -13,7 +13,7 @@ public class LocalStorageService implements StorageService {
 
     @Override
     public String saveImage(byte[] imageBytes, String fileName) throws Exception {
-        Path outputDir = Paths.get("output", "build");
+        Path outputDir = Paths.get("output");
         if (!Files.exists(outputDir)) {
             Files.createDirectories(outputDir);
         }
