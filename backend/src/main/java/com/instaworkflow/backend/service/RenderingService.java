@@ -8,6 +8,7 @@ import com.microsoft.playwright.Playwright;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import com.microsoft.playwright.Locator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,15 +43,26 @@ public class RenderingService {
 
             int numSlides = 5;
             for (int i = 0; i < numSlides; i++) {
-                String slideTemplate = "slide-" + (i + 1);
+                String slideTemplate = "v1/slide-" + (i + 1) + ".template";
+
+                Object slideData = switch (i) {
+                    case 0 -> data.slide1();
+                    case 1 -> data.slide2();
+                    case 2 -> data.slide3();
+                    case 3 -> data.slide4();
+                    case 4 -> data.slide5();
+                    default -> null;
+                };
+                context.setVariable("slide", slideData);
+
                 String html = templateEngine.process(slideTemplate, context);
-                
+
                 page.setContent(html);
                 page.waitForLoadState();
 
                 String fileName = "slide_" + runId + "_" + (i + 1);
 
-                com.microsoft.playwright.Locator slideLocator = page.locator("#slide-" + (i + 1));
+                Locator slideLocator = page.locator("#slide-" + (i + 1));
                 slideLocator.scrollIntoViewIfNeeded();
                 byte[] screenshotBytes = slideLocator.screenshot();
 

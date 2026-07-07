@@ -23,7 +23,7 @@ export default function Slide2CureCard({ cure, features, isTemplate = false }: S
             <li key={i} className="s2-checkpoint-item" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
               <span className="s2-checkpoint-icon">✅</span>
               <span className="s2-checkpoint-text" style={{ fontSize: '1.1rem', color: '#cbd5e1' }}>
-                {isTemplate ? "{{this}}" : pt}
+                {isTemplate ? "[[${featuresItem}]]" : pt}
               </span>
             </li>
           )}

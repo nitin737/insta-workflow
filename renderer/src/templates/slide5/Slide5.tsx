@@ -31,7 +31,7 @@ export default function Slide5({
       backgroundImage={backgroundImage}
       badgeText="GET STARTED"
       badgeClass="badge-ai"
-      handle={isTemplate ? "{{handle}}" : handle}
+      handle={isTemplate ? "@[[${carousel.slide1.owner}]]" : handle}
       footerAction="Save Post 🔖"
     >
       <div className="glow-accent-1"></div>
@@ -39,13 +39,13 @@ export default function Slide5({
 
       <div className="slide-content" style={{ gap: '20px', justifyContent: 'center' }}>
         <h2 className="slide-title-h1" style={{ fontSize: '3.2rem', textAlign: 'center', marginBottom: '10px' }}>
-          {isTemplate ? "{{headline}}" : headline}
+          {isTemplate ? "[[${slide.headline}]]" : headline}
         </h2>
 
         {/* Quickstart */}
         {(isTemplate || quickstart) && (
           <div className="code-block" style={{ background: '#0d1117', border: '1px solid #30363d', padding: '16px', borderRadius: '8px' }}>
-            <code style={{ color: '#58a6ff', fontFamily: 'var(--font-mono)' }}>$ {isTemplate ? "{{quickstart}}" : quickstart}</code>
+            <code style={{ color: '#58a6ff', fontFamily: 'var(--font-mono)' }}>$ {isTemplate ? "[[${slide.quickstart}]]" : quickstart}</code>
           </div>
         )}
 
@@ -56,7 +56,7 @@ export default function Slide5({
               <div className="code-tab">main.go</div>
             </div>
             <SyntaxHighlighter language="go" style={vscDarkPlus} customStyle={{ margin: 0, background: 'transparent', padding: '16px', fontSize: '0.9rem' }}>
-              {isTemplate ? "{{minimalSetup}}" : minimalSetup}
+              {isTemplate ? "[[${slide.minimalSetup}]]" : minimalSetup}
             </SyntaxHighlighter>
           </div>
         )}
@@ -71,10 +71,10 @@ export default function Slide5({
                   <div key={i} className="s5-resource-item" style={{ marginBottom: '8px' }}>
                     <span className="s5-resource-icon">📖</span>
                     <span className="s5-resource-label" style={{ color: '#f8fafc', fontWeight: 500, marginRight: '8px' }}>
-                      {isTemplate ? "{{label}}" : res.label}:
+                      {isTemplate ? "[[${resourcesItem.label}]]" : res.label}:
                     </span>
                     <span className="s5-resource-url" style={{ color: '#00ADD8' }}>
-                      {isTemplate ? "{{url}}" : res.url}
+                      {isTemplate ? "[[${resourcesItem.url}]]" : res.url}
                     </span>
                   </div>
                 )}

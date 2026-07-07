@@ -61,39 +61,40 @@ export default function Slide1({
       slideNumber={1}
       backgroundImage={backgroundImage}
       showHeader={false}
-      handle={isTemplate ? "{{handle}}" : handle}
+      handle={isTemplate ? "@[[${carousel.slide1.owner}]]" : handle}
       footerAction="Swipe →"
     >
       <div className="glow-accent-1"></div>
 
       <GithubHeader 
         headerTheme={headerTheme} 
-        owner={isTemplate ? "{{owner}}" : owner} 
-        repo={isTemplate ? "{{repo}}" : repo} 
-        stars={isTemplate ? "{{stars}}" : stars} 
+        owner={isTemplate ? "[[${slide.owner}]]" : owner} 
+        repo={isTemplate ? "[[${slide.repo}]]" : repo} 
+        stars={isTemplate ? "[[${slide.stars}]]" : stars} 
       />
 
       <div className="github-hero-center">
         <GithubHero 
-          bigTitle={isTemplate ? "{{bigTitle}}" : bigTitle} 
-          description={isTemplate ? "{{description}}" : description} 
-          highlight={isTemplate ? "{{highlightedText}}" : highlight} 
+          bigTitle={isTemplate ? "[[${slide.bigTitle}]]" : bigTitle} 
+          description={isTemplate ? "[[${slide.description}]]" : description} 
+          highlight={isTemplate ? "[[${slide.highlightedText}]]" : highlight} 
         />
 
         <GithubStats 
-          watchers={isTemplate ? "{{watchers}}" : watchers as any} 
-          forks={isTemplate ? "{{forks}}" : forks as any} 
-          latestRelease={isTemplate ? "{{latestRelease}}" : latestRelease} 
+          watchers={isTemplate ? "[[${slide.watchers}]]" : watchers as any} 
+          forks={isTemplate ? "[[${slide.forks}]]" : forks as any} 
+          latestRelease={isTemplate ? "[[${slide.latestRelease}]]" : latestRelease} 
         />
       </div>
 
       <GithubLanguageBar 
-        langGoPct={isTemplate ? "{{langGoPct}}" : langGoPct as any} 
-        langOtherPct={isTemplate ? "{{langOtherPct}}" : langOtherPct as any} 
+        langGoPct={isTemplate ? "[[${slide.langGoPct}]]" : langGoPct as any} 
+        langOtherPct={isTemplate ? "[[${slide.langOtherPct}]]" : langOtherPct as any} 
+        isTemplate={isTemplate}
       />
       
       <GithubContributors 
-        contributorsCount={isTemplate ? "{{contributorsCount}}" : contributorsCount as any} 
+        contributorsCount={isTemplate ? "[[${slide.contributorsCount}]]" : contributorsCount as any} 
       />
     </SlideWrapper>
   );

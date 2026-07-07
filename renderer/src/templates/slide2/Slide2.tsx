@@ -28,21 +28,22 @@ export default function Slide2({
       backgroundImage={backgroundImage}
       badgeText="THE PROBLEM & THE SOLUTION"
       badgeClass="badge-go"
-      handle={isTemplate ? "{{handle}}" : handle}
+      handle={isTemplate ? "@[[${carousel.slide1.owner}]]" : handle}
       footerAction="Swipe →"
     >
       <div className="s2-glow-red" />
       <div className="s2-glow-cyan" />
 
       <div className="s2-content">
-        <div className="s2-heading-row">
-          <h2 className="s2-heading-title">
-            {isTemplate ? "{{headline}}" : headline}
+        <div className="slide2-header">
+          <div className="accent-line"></div>
+          <h2 className="slide2-title">
+            {isTemplate ? "[[${slide.headline}]]" : headline}
           </h2>
         </div>
 
-        <div className="s2-compare-stack">
-          <Slide2PainCard pain={isTemplate ? "{{pain}}" : pain} />
+        <div className="slide2-content-split">
+          <Slide2PainCard pain={isTemplate ? "[[${slide.pain}]]" : pain} />
 
           <div className="s2-divider">
             <div className="s2-divider-line"></div>
@@ -51,7 +52,7 @@ export default function Slide2({
           </div>
 
           {/* We pass isTemplate into Slide2CureCard to handle the features array inside it */}
-          <Slide2CureCard cure={isTemplate ? "{{cure}}" : cure} features={features} isTemplate={isTemplate} />
+          <Slide2CureCard cure={isTemplate ? "[[${slide.cure}]]" : cure} features={features} isTemplate={isTemplate} />
         </div>
       </div>
     </SlideWrapper>

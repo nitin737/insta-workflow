@@ -3,14 +3,21 @@ import React from 'react';
 export interface GithubLanguageBarProps {
   langGoPct: number;
   langOtherPct: number;
+  isTemplate?: boolean;
 }
 
-export default function GithubLanguageBar({ langGoPct, langOtherPct }: GithubLanguageBarProps) {
+export default function GithubLanguageBar({ langGoPct, langOtherPct, isTemplate = false }: GithubLanguageBarProps) {
   return (
     <div className="github-language-horizontal-bar">
       <div className="language-bar-track">
-        <div className="language-bar-fill go" style={{ width: `${langGoPct}%` }}></div>
-        <div className="language-bar-fill other" style={{ width: `${langOtherPct}%` }}></div>
+        <div className="language-bar-fill go" 
+             style={isTemplate ? undefined : { width: `${langGoPct}%` }}
+             {...(isTemplate ? { "data-th-style": `|width: \${slide.langGoPct}%|` } : {})}
+        ></div>
+        <div className="language-bar-fill other" 
+             style={isTemplate ? undefined : { width: `${langOtherPct}%` }}
+             {...(isTemplate ? { "data-th-style": `|width: \${slide.langOtherPct}%|` } : {})}
+        ></div>
       </div>
       <div className="language-bar-labels">
         <span className="label-go">

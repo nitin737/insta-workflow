@@ -9,13 +9,12 @@ export interface TemplateArrayProps<T> {
 
 export function TemplateArray<T>({ name, items, isTemplate, children }: TemplateArrayProps<T>) {
   if (isTemplate) {
-    // Renders the block tags without HTML comments when using renderToStaticMarkup
+    // Renders the block tags using standard data-th-* attributes
+    // These will be rendered seamlessly by React into static markup
     return (
-      <>
-        {`{{#${name}}}`}
+      <div data-th-each={`${name}Item : \${slide.${name}}`} data-th-remove="tag">
         {children({} as T, 0)}
-        {`{{/${name}}}`}
-      </>
+      </div>
     );
   }
 
