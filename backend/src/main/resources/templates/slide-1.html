@@ -1,0 +1,71 @@
+<div class="slide-inner" id="slide-1" style="background-image: url('/slide1-bg.jpg');">
+    <div class="glow-accent-1"></div>
+    <div class="github-pill-header ">
+        <div class="github-pill-left"><svg viewBox="0 0 16 16" version="1.1" width="22" height="22" fill="currentColor"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z">
+                </path>
+            </svg><span class="github-pill-repo-owner" th:text="${carousel.slide1.owner}">spf13</span><span
+                style="color: rgba(255, 255, 255, 0.4);">/</span><span class="github-pill-repo-name" th:text="${carousel.slide1.repo}">cobra</span><span
+                class="github-pill-public-badge">Public</span></div>
+        <div class="github-pill-right"><button class="github-btn-star"><svg viewBox="0 0 16 16" version="1.1" width="20"
+                    height="20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5a.75.75 0 01-.564.41l-3.097.45 2.24 2.184a.75.75 0 01.216.664l-.528 3.084 2.769-1.456a.75.75 0 01.698 0l2.77 1.456-.53-3.084a.75.75 0 01.216-.664l2.24-2.183-3.096-.45a.75.75 0 01-.564-.41L8 2.694z">
+                    </path>
+                </svg><span>Star</span><span class="github-star-count" th:text="${carousel.slide1.stars}">44.1k</span></button><button
+                class="github-btn-arrow" aria-label="Toggle details"><svg viewBox="0 0 16 16" version="1.1" width="16"
+                    height="16" fill="currentColor" aria-hidden="true">
+                    <path
+                        d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z">
+                    </path>
+                </svg></button></div>
+    </div>
+    <div class="github-hero-center">
+        <div class="github-logo-title-row">
+            <div class="github-logo-circle"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor">
+                    <path
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z">
+                    </path>
+                </svg></div>
+            <h1 class="github-hero-title" th:text="${carousel.slide1.bigTitle}">Cobra</h1>
+        </div>
+        <div class="github-hero-description" th:utext="${#strings.replace(carousel.slide1.description, carousel.slide1.highlightedText, '<span class=&quot;github-description-highlight&quot;>' + carousel.slide1.highlightedText + '</span>')}">A Commander for modern <span class="github-description-highlight">Go
+                (golang)</span> CLI applications.</div>
+        <div class="github-stats-grid">
+            <div class="github-stat-card"><span class="stat-card-icon" aria-hidden="true">👁️</span><span
+                    class="stat-card-text" th:text="${carousel.slide1.watchers} + ' watching'">364 watching</span></div>
+            <div class="github-stat-card"><span class="stat-card-icon" aria-hidden="true">🍴</span><span
+                    class="stat-card-text" th:text="${carousel.slide1.forks} + ' forks'">3154 forks</span></div>
+            <div class="github-stat-card highlight-release"><span class="stat-card-icon"
+                    aria-hidden="true">🏷️</span><span class="stat-card-text" th:text="'release: ' + ${carousel.slide1.latestRelease}">release: v1.10.2 Latest</span></div>
+        </div>
+    </div>
+    <div class="github-language-horizontal-bar">
+        <div class="language-bar-track">
+            <div class="language-bar-fill go" th:style="'width: ' + ${carousel.slide1.langGoPct} + '%;'"></div>
+            <div class="language-bar-fill other" th:style="'width: ' + ${carousel.slide1.langOtherPct} + '%;'"></div>
+        </div>
+        <div class="language-bar-labels"><span class="label-go"><span class="indicator go" aria-hidden="true"></span>Go
+                [[${carousel.slide1.langGoPct}]]%</span><span class="label-other"><span class="indicator other" aria-hidden="true"></span>Other
+                [[${carousel.slide1.langOtherPct}]]%</span></div>
+    </div>
+    <div class="github-contributors-container">
+        <div class="contributors-header">
+            <div class="github-contributors-label"><span>Contributors</span><span
+                    class="github-contributors-badge" th:text="${carousel.slide1.contributorsCount}">280</span></div>
+        </div>
+        <div class="github-avatar-row"><img class="github-avatar" alt="Contributor 1"
+                src="https://avatars.githubusercontent.com/u/1?v=4"><img class="github-avatar" alt="Contributor 2"
+                src="https://avatars.githubusercontent.com/u/583231?v=4"><img class="github-avatar" alt="Contributor 3"
+                src="https://avatars.githubusercontent.com/u/2?v=4"><img class="github-avatar" alt="Contributor 4"
+                src="https://avatars.githubusercontent.com/u/3?v=4">
+            <div class="github-contributors-more" th:text="'+' + (${carousel.slide1.contributorsCount} - 4)">+276</div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div class="footer-handle" th:text="'@' + ${carousel.slide1.owner}">@golang_verse</div>
+        <div class="footer-action">Swipe →</div>
+    </div>
+</div>

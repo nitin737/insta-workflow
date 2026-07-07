@@ -1,0 +1,101 @@
+{
+  "slides": [
+    {
+      "template": "slide1",
+      "data": {
+        "owner": "spf13",
+        "repo": "cobra",
+        "stars": "39k",
+        "bigTitle": "Cobra",
+        "highlightedText": "Go (golang)",
+        "description": "A Commander for modern Go (golang) CLI interactions",
+        "about": "Cobra is both a library for creating powerful modern CLI applications as well as a program to generate applications and command files.",
+        "tags": [
+          "go",
+          "golang",
+          "cli"
+        ],
+        "license": "Apache-2.0",
+        "activity": "Active",
+        "watchers": 580,
+        "forks": 2900,
+        "latestRelease": "v1.8.1",
+        "contributorsCount": 280,
+        "langGoPct": 98.7,
+        "langOtherPct": 1.3,
+        "backgroundImage": "../assets/slide1-bg.jpg",
+        "headerTheme": "classic",
+        "handle": "@golang_verse"
+      }
+    },
+    {
+      "template": "slide2",
+      "data": {
+        "headline": "Solve CLI Boilerplate with Zero Friction.",
+        "pain": "Writing CLI tools manually means handling flag parsing, subcommands, and help generation from scratch.",
+        "cure": "Cobra handles everything automatically, so you can focus on building your app's core logic.",
+        "features": [
+          "Automatic help generation",
+          "Nested subcommands out of the box",
+          "Fully POSIX compliant flags"
+        ],
+        "backgroundImage": "../assets/slide1-bg.jpg"
+      }
+    },
+    {
+      "template": "slide3",
+      "data": {
+        "headline": "Standard Library—But Smarter.",
+        "beforeCode": "package main\n\nimport (\n  \"flag\"\n  \"fmt\"\n)\n\nfunc main() {\n  name := flag.String(\"name\", \"World\", \"a name to say hello to\")\n  flag.Parse()\n  fmt.Printf(\"Hello, %s!\\n\", *name)\n}",
+        "afterCode": "package main\n\nimport (\n  \"fmt\"\n  \"github.com/spf13/cobra\"\n)\n\nfunc main() {\n  var rootCmd = &cobra.Command{\n    Use:   \"hello\",\n    Short: \"Prints hello world\",\n    Run: func(cmd *cobra.Command, args []string) {\n      fmt.Println(\"Hello, World!\")\n    },\n  }\n  rootCmd.Execute()\n}",
+        "takeaway": "Cobra scales from a simple tool to a massive CLI effortlessly.",
+        "backgroundImage": "../assets/slide1-bg.jpg"
+      }
+    },
+    {
+      "template": "slide4",
+      "data": {
+        "headline": "Designed for Real-World Go Projects.",
+        "points": [
+          {
+            "title": "Viper Integration",
+            "desc": "Seamlessly integrates with Viper for advanced configuration management."
+          },
+          {
+            "title": "Intelligent Suggestions",
+            "desc": "Provides 'Did you mean this?' style suggestions for typos automatically."
+          },
+          {
+            "title": "Automatic Autocomplete",
+            "desc": "Generates bash, zsh, fish, and powershell autocomplete scripts automatically."
+          },
+          {
+            "title": "Subcommand Modularity",
+            "desc": "Encourages a clean architecture with separate files and packages for subcommands."
+          }
+        ],
+        "backgroundImage": "../assets/slide1-bg.jpg"
+      }
+    },
+    {
+      "template": "slide5",
+      "data": {
+        "headline": "Add This to Your Go.mod Today.",
+        "quickstart": "go get -u github.com/spf13/cobra@latest",
+        "minimalSetup": "package main\n\nimport \"github.com/spf13/cobra\"\n\nfunc main() {\n  // Your CLI here\n}",
+        "resources": [
+          {
+            "label": "GitHub",
+            "url": "github.com/spf13/cobra"
+          },
+          {
+            "label": "Docs",
+            "url": "cobra.dev"
+          }
+        ],
+        "ctas": [],
+        "backgroundImage": "../assets/slide1-bg.jpg"
+      }
+    }
+  ]
+}

@@ -9,29 +9,25 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
+import com.instaworkflow.backend.service.storage.StorageService;
 
 @Service
 public class RenderingService {
 
     private final TemplateEngine templateEngine;
-    private final Cloudinary cloudinary;
+    private final StorageService storageService;
 
-    public RenderingService(TemplateEngine templateEngine, Cloudinary cloudinary) {
+    public RenderingService(TemplateEngine templateEngine, StorageService storageService) {
         this.templateEngine = templateEngine;
-        this.cloudinary = cloudinary;
+        this.storageService = storageService;
     }
 
-    public List<String> renderCarousel(CarouselData data) {
+    public List<String> renderCarousel(CarouselData data, String templateName) {
         Context context = new Context();
         context.setVariable("carousel", data);
-        String html = templateEngine.process("carousel-template", context);
 
         List<String> outputFiles = new ArrayList<>();
         String runId = UUID.randomUUID().toString();
@@ -40,26 +36,29 @@ public class RenderingService {
             Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
             // Viewport must match the slide size, Playwright defaults to 1280x720, we need
             // 1080x1080
-            Page page = browser.newPage(new Browser.NewPageOptions().setViewportSize(1080, 1080));
-
-            page.setContent(html);
-            page.waitForLoadState();
+            Page page = browser.newPage(new Browser.NewPageOptions()
+                    .setViewportSize(1080, 1080)
+                    .setBaseURL("http://localhost:8080/"));
 
             int numSlides = 5;
             for (int i = 0; i < numSlides; i++) {
+                String slideTemplate = "slide-" + (i + 1);
+                String html = templateEngine.process(slideTemplate, context);
+                
+                page.setContent(html);
+                page.waitForLoadState();
+
                 String fileName = "slide_" + runId + "_" + (i + 1);
 
-                page.evaluate("window.scrollTo(" + (i * 1080) + ", 0)");
-                byte[] screenshotBytes = page.screenshot(new Page.ScreenshotOptions());
+                com.microsoft.playwright.Locator slideLocator = page.locator("#slide-" + (i + 1));
+                slideLocator.scrollIntoViewIfNeeded();
+                byte[] screenshotBytes = slideLocator.screenshot();
 
                 try {
-                    Map<?, ?> uploadResult = cloudinary.uploader().upload(screenshotBytes, ObjectUtils.asMap(
-                            "public_id", fileName
-                    ));
-                    String url = (String) uploadResult.get("secure_url");
-                    outputFiles.add(url);
+                    String urlOrPath = storageService.saveImage(screenshotBytes, fileName);
+                    outputFiles.add(urlOrPath);
                 } catch (Exception e) {
-                    throw new RuntimeException("Failed to upload slide to Cloudinary: " + fileName, e);
+                    throw new RuntimeException("Failed to save or upload slide: " + fileName, e);
                 }
             }
         }

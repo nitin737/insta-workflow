@@ -1,0 +1,44 @@
+<div class="slide-inner" id="slide-2" style="background-image: url('/other-bg.png');">
+    <div class="slide-header">
+        <div class="slide-badge badge-go">THE PROBLEM &amp; THE SOLUTION</div>
+        <div class="footer-page">2 / 5</div>
+    </div>
+    <div class="s2-glow-red"></div>
+    <div class="s2-glow-cyan"></div>
+    <div class="s2-content">
+        <div class="s2-heading-row">
+            <h2 class="s2-heading-title" th:text="${carousel.slide2.headline}">Solve CLI Boilerplate with Zero Friction.</h2>
+        </div>
+        <div class="s2-compare-stack">
+            <div class="s2-card s2-card--before">
+                <div class="s2-card-accent s2-card-accent--before"></div>
+                <div class="s2-card-header">
+                    <div class="s2-card-icon s2-card-icon--before">??</div><span class="s2-card-label s2-card-label--before">THE PAIN</span>
+                </div>
+                <div class="s2-point-text" style="margin-top: 4px; color: rgba(248, 250, 252, 0.85);" th:text="${carousel.slide2.pain}">We all know the drudgery...</div>
+            </div>
+            <div class="s2-divider">
+                <div class="s2-divider-line"></div>
+                <div class="s2-divider-badge">VS</div>
+                <div class="s2-divider-line"></div>
+            </div>
+            <div class="s2-card s2-card--after">
+                <div class="s2-card-accent s2-card-accent--after"></div>
+                <div class="s2-card-header">
+                    <div class="s2-card-icon s2-card-icon--after">?</div><span class="s2-card-label s2-card-label--after">THE CURE</span>
+                </div>
+                <div class="s2-point-text" style="margin-top: 4px; color: rgba(248, 250, 252, 0.85);" th:text="${carousel.slide2.cure}">Cobra abstracts the complexity...</div>
+                <ul class="s2-checkpoint-list" style="margin-top: 16px;">
+                    <li class="s2-checkpoint-item" style="display: flex; gap: 8px; align-items: center;" th:each="feature : ${carousel.slide2.features}">
+                        <span class="s2-checkpoint-icon">?</span>
+                        <span class="s2-checkpoint-text" style="font-size: 1.1rem; color: rgb(203, 213, 225);" th:text="${feature}">Type-Safe...</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div class="footer-handle" th:text="'@' + ${carousel.slide1.owner}">@golang_verse</div>
+        <div class="footer-action">Swipe ?</div>
+    </div>
+</div>

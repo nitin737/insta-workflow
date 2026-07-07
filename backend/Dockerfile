@@ -11,18 +11,21 @@ COPY settings.gradle settings.gradle
 # Make gradlew executable
 RUN chmod +x gradlew
 # Download dependencies
-RUN ./gradlew dependencies --no-daemon
+RUN --mount=type=cache,target=/root/.gradle ./gradlew dependencies --no-daemon
 
 # Copy source code
 COPY src src/
 # Build the application
-RUN ./gradlew bootJar --no-daemon
+RUN --mount=type=cache,target=/root/.gradle ./gradlew bootJar --no-daemon
 
 # Runtime stage
 # We use the official Playwright Java image to ensure all browser OS dependencies are present.
 # Distroless or Alpine would crash when trying to launch Chromium.
 FROM mcr.microsoft.com/playwright/java:v1.44.0-jammy
 WORKDIR /app
+
+# Change ownership to pwuser so it can write to /app (e.g. for output directory)
+RUN chown -R pwuser:pwuser /app
 
 # Run as a non-root user for security (Playwright image has a 'pwuser')
 USER pwuser

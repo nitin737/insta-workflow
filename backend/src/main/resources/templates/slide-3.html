@@ -1,0 +1,30 @@
+<div class="slide-inner" id="slide-3" style="background-image: url('/other-bg.png');">
+    <div class="slide-header">
+        <div class="slide-badge badge-go">SIMPLICITY</div>
+        <div class="footer-page">3 / 5</div>
+    </div>
+    <div class="s3-content" style="display: flex; flex-direction: column; gap: 24px; flex: 1 1 0%; justify-content: center;">
+        <div class="s3-heading-row">
+            <h2 class="s3-heading-title" th:text="${carousel.slide3.headline}">Standard LibraryBut Smarter.</h2>
+        </div>
+        <div class="code-block" style="opacity: 0.8; border: 1px dashed rgb(239, 68, 68);">
+            <div class="code-block-header">
+                <div class="code-tab" style="color: rgb(239, 68, 68);">BEFORE (Manual)</div>
+            </div>
+            <pre style="color: rgb(212, 212, 212); font-size: 0.9rem; text-shadow: none; font-family: Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace; direction: ltr; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; line-height: 1.5; tab-size: 4; hyphens: none; padding: 16px; margin: 0px; overflow: auto; background: transparent;"><code class="language-go" style="white-space: pre; color: rgb(212, 212, 212); font-size: 13px; text-shadow: none; font-family: Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace; direction: ltr; text-align: left; word-spacing: normal; word-break: normal; line-height: 1.5; tab-size: 4; hyphens: none;" th:text="${carousel.slide3.beforeCode}">// Before code</code></pre>
+        </div>
+        <div class="code-block" style="border: 1px solid rgb(0, 173, 216); box-shadow: rgba(0, 173, 216, 0.2) 0px 0px 20px;">
+            <div class="code-block-header">
+                <div class="code-tab" style="color: rgb(0, 173, 216);">AFTER (With Library)</div>
+            </div>
+            <pre style="color: rgb(212, 212, 212); font-size: 0.9rem; text-shadow: none; font-family: Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace; direction: ltr; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; line-height: 1.5; tab-size: 4; hyphens: none; padding: 16px; margin: 0px; overflow: auto; background: transparent;"><code class="language-go" style="white-space: pre; color: rgb(212, 212, 212); font-size: 13px; text-shadow: none; font-family: Menlo, Monaco, Consolas, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, &quot;Courier New&quot;, monospace; direction: ltr; text-align: left; word-spacing: normal; word-break: normal; line-height: 1.5; tab-size: 4; hyphens: none;" th:text="${carousel.slide3.afterCode}">// After code</code></pre>
+        </div>
+        <div class="s3-dev-experience" style="margin-top: 16px; background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 12px;">
+            <span class="s3-dev-exp-icon">??</span><span class="s3-dev-exp-text" style="font-size: 1.2rem; line-height: 1.5;" th:text="${carousel.slide3.takeaway}">Cobra integrates seamlessly...</span>
+        </div>
+    </div>
+    <div class="slide-footer">
+        <div class="footer-handle" th:text="'@' + ${carousel.slide1.owner}">@golang_verse</div>
+        <div class="footer-action">Swipe ?</div>
+    </div>
+</div>
