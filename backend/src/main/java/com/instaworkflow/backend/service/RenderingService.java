@@ -106,6 +106,7 @@ public class RenderingService {
 
         var html = templateEngine.process(slideTemplate, context);
 
+        page.navigate(BASE_URL);
         page.setContent(html);
         page.waitForLoadState();
 

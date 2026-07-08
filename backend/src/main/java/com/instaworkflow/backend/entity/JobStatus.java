@@ -5,5 +5,8 @@ public enum JobStatus {
     GENERATING,
     RENDERING,
     COMPLETED,
-    FAILED
+    FAILED,
+    PUBLISHING,
+    PUBLISHED,
+    PUBLISH_FAILED
 }

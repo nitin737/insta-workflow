@@ -15,17 +15,17 @@ Based on the roadmap defined in `docs/specs/automation_spec.md`, here is the cur
 
 - [x] Wrap the Java logic in a **Spring Boot** REST Controller (`GenerationController.java`).
 - [x] Implement the actual Gemini API call inside `GenerationService.java` using Spring AI or standard REST client.
-- [ ] Replace placeholder `carousel-template.html` with the real MVP design and CSS.
+- [x] Replace placeholder `carousel-template.html` with the real MVP design and CSS.
 - [x] Add a database (PostgreSQL via Docker Compose is already configured) with Spring Data JPA to track the `state` of each job.
-- [ ] Upload generated PNGs to **Cloudinary** instead of saving them locally.
-- [ ] *Success Metric*: `POST /api/v1/generate` returns a JSON with `{"status": "rendered", "image_urls": [...]}` containing real Cloudinary URLs.
+- [x] Upload generated PNGs to **Cloudinary** instead of saving them locally.
+- [x] *Success Metric*: `POST /api/v1/carousels` returns a JSON with `{"status": "rendered", "image_urls": [...]}` containing real Cloudinary URLs.
 
 ## Phase 3: The Publisher
 **Goal**: Full automation.
 
-- [ ] Implement the Instagram Graph API steps in Java (`publishCarousel` method).
-- [ ] Set up a simple scheduler (using Spring `@Scheduled`) to check for pending posts.
-- [ ] Add an alert/retry system: if the API returns a rate-limit error, automatically back off.
+- [x] Implement the Instagram Graph API steps in Java (`publishCarousel` method).
+- [x] Set up a simple scheduler (using Spring `@Scheduled`) to check for pending posts.
+- [x] Add an alert/retry system: if the API returns a rate-limit error, automatically back off.
 - [ ] *Success Metric*: A post goes live on Instagram completely unattended at the scheduled time.
 
 ## Phase 4: The Brain

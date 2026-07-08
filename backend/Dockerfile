@@ -11,12 +11,14 @@ COPY settings.gradle settings.gradle
 # Make gradlew executable
 RUN chmod +x gradlew
 # Download dependencies
-RUN --mount=type=cache,target=/root/.gradle ./gradlew dependencies --no-daemon
+RUN --mount=type=cache,target=/root/.gradle ./gradlew dependencies
 
 # Copy source code
 COPY src src/
 # Build the application
-RUN --mount=type=cache,target=/root/.gradle ./gradlew bootJar --no-daemon
+RUN --mount=type=cache,target=/root/.gradle \
+    --mount=type=cache,target=/build/.gradle \
+    ./gradlew bootJar -x test
 
 # Runtime stage
 # We use the official Playwright Java image to ensure all browser OS dependencies are present.
