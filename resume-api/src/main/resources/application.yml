@@ -1,0 +1,30 @@
+resume:
+  latex:
+    command: pdflatex
+    timeout: 15s
+  template:
+    base-path: classpath:templates/
+  validation:
+    schema-location: classpath:resume-schema.json
+
+spring:
+  application:
+    name: resume-api
+  servlet:
+    multipart:
+      max-file-size: 1MB
+  task:
+    execution:
+      pool:
+        core-size: 4
+        max-size: 8
+        queue-capacity: 100
+
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: rate-limit-buckets
+      url: /api/v1/resumes/generate
+      rate: 20
+      rate-interval: 1
+      rate-interval-unit: minutes

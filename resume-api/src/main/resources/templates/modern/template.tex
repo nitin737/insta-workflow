@@ -1,0 +1,144 @@
+%-------------------------
+% ATS-Friendly Resume in Latex
+% Optimized for Applicant Tracking Systems
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting - ATS friendly (no small caps)
+\titleformat{\section}{
+  \vspace{-6pt}\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    { #1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{ #1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{ #1}\vspace{-4pt}}
+
+\renewcommand{\labelitemii}{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge {{ basics.name | latex_escape }}} \\ \vspace{2pt}
+    \textbf{\large {{ basics.title | latex_escape }}} \\ \vspace{2pt}
+    \small {{ basics.phone | latex_escape }} $|$ \href{mailto:{{ basics.email | latex_escape }}}{ {{ basics.email | latex_escape }} } 
+    {% if basics.linkedin %} $|$ \href{https://{{ basics.linkedin | latex_escape }}}{ {{ basics.linkedin | latex_escape }} } {% endif %}
+    {% if basics.github %} $|$ \href{https://{{ basics.github | latex_escape }}}{ {{ basics.github | latex_escape }} } {% endif %}
+\end{center}
+
+%----------PROFESSIONAL SUMMARY----------
+\section{Professional Summary}
+\begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+    {{ basics.summary | latex_escape }}
+    }}
+\end{itemize}
+
+%-----------TECHNICAL SKILLS-----------
+{% if skills %}
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+    {% for skill in skills %}
+    \textbf{ {{ skill.category | latex_escape }}:} {{ skill.details | latex_escape }} {% if not loop.last %}\\ {% endif %}
+    {% endfor %}
+    }}
+\end{itemize}
+{% endif %}
+
+%-----------PROFESSIONAL EXPERIENCE-----------
+\section{Professional Experience}
+  \resumeSubHeadingListStart
+    {% for exp in experience %}
+    \resumeSubheading
+      { {{ exp.company | latex_escape }} }{ {{ exp.location | latex_escape }} }
+      { {{ exp.title | latex_escape }} }{ {{ exp.date | latex_escape }} }
+      \resumeItemListStart
+        {% for hl in exp.highlights %}
+        \resumeItem{ {{ hl | latex_escape }} }
+        {% endfor %}
+      \resumeItemListEnd
+    {% endfor %}
+  \resumeSubHeadingListEnd
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    {% for edu in education %}
+    \resumeSubheading
+      { {{ edu.institution | latex_escape }} }{ {{ edu.location | latex_escape }} }
+      { {{ edu.degree | latex_escape }} }{ {{ edu.date | latex_escape }} }
+    {% endfor %}
+  \resumeSubHeadingListEnd
+
+%-----------CERTIFICATIONS-----------
+{% if certifications %}
+\section{Certifications}
+  \resumeSubHeadingListStart
+    {% for cert in certifications %}
+    \resumeProjectHeading
+      {\textbf{ {{ cert.name | latex_escape }} } $|$ \emph{ {{ cert.issuer | latex_escape }} }}{ {{ cert.date | latex_escape }} }
+    {% endfor %}
+  \resumeSubHeadingListEnd
+{% endif %}
+
+%-------------------------------------------
+\end{document}

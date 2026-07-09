@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="${basics['name']}">Resume</title>
+    <style type="text/css">
+        /* ── Page ──────────────────────────────────────────────── */
+        @page {
+            size: letter;
+            margin: 0.55in 0.65in 0.55in 0.65in;
+        }
+
+        body {
+            font-family: "DejaVu Sans", Arial, sans-serif;
+            font-size: 9.5pt;
+            color: #1a1a1a;
+            line-height: 1.45;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ── Header ─────────────────────────────────────────────── */
+        .hdr {
+            text-align: center;
+            margin-bottom: 4pt;
+        }
+
+        .hdr-name {
+            font-size: 22pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5pt;
+            color: #111111;
+            margin: 0 0 2pt 0;
+        }
+
+        .hdr-title {
+            font-size: 10pt;
+            font-weight: normal;
+            color: #444444;
+            margin: 0 0 5pt 0;
+        }
+
+        .hdr-rule {
+            border: none;
+            border-top: 0.6pt solid #aaaaaa;
+            margin: 4pt 0 4pt 0;
+        }
+
+        .hdr-contact {
+            font-size: 9pt;
+            color: #444444;
+            margin: 0;
+        }
+
+        .hdr-contact a {
+            color: #444444;
+            text-decoration: none;
+        }
+
+        .sep {
+            margin: 0 5pt;
+            color: #999999;
+        }
+
+        /* ── Section bar ────────────────────────────────────────── */
+        .sec-bar {
+            background-color: #cfdfe8;
+            padding: 3.5pt 6pt;
+            margin-top: 9pt;
+            margin-bottom: 5pt;
+            font-size: 9.5pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.7pt;
+            color: #111111;
+        }
+
+        /* ── Summary ────────────────────────────────────────────── */
+        .summary {
+            font-size: 9.5pt;
+            color: #222222;
+            text-align: justify;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* ── Entry (experience / education) ─────────────────────── */
+        .entry {
+            margin-bottom: 7pt;
+        }
+
+        .entry-row {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .entry-row td {
+            padding: 0;
+            vertical-align: top;
+        }
+
+        .entry-main {
+            width: 72%;
+        }
+
+        .entry-date {
+            width: 28%;
+            text-align: right;
+            white-space: nowrap;
+            font-size: 9pt;
+            color: #333333;
+        }
+
+        .entry-bold {
+            font-weight: bold;
+            font-size: 9.5pt;
+            color: #111111;
+        }
+
+        .entry-sub {
+            font-size: 9pt;
+            color: #444444;
+            margin: 1pt 0 0 0;
+        }
+
+        /* ── Bullet list ─────────────────────────────────────────── */
+        .bullets {
+            margin: 2pt 0 3pt 14pt;
+            padding: 0;
+        }
+
+        .bullets li {
+            font-size: 9.5pt;
+            color: #222222;
+            margin-bottom: 2pt;
+            list-style-type: disc;
+            line-height: 1.5;
+            text-align: justify;
+        }
+
+        /* ── Skills 3-column grid ────────────────────────────────── */
+        .skills-grid {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .skill-cell {
+            width: 33%;
+            font-size: 9.5pt;
+            color: #222222;
+            padding: 1.5pt 4pt 1.5pt 0;
+            vertical-align: top;
+        }
+
+        /* ── Certifications ──────────────────────────────────────── */
+        .cert-row {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2pt;
+        }
+
+        .cert-row td {
+            padding: 1.5pt 0;
+            vertical-align: top;
+            font-size: 9.5pt;
+        }
+
+        .cert-name {
+            font-weight: bold;
+            color: #111111;
+            width: 55%;
+        }
+
+        .cert-issuer {
+            font-style: italic;
+            color: #555555;
+            width: 25%;
+        }
+
+        .cert-date {
+            text-align: right;
+            color: #444444;
+            width: 20%;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══ HEADER ════════════════════════════════════════════════════ -->
+<div class="hdr">
+    <p class="hdr-name" th:text="${basics['name']}">Full Name</p>
+    <p class="hdr-title" th:text="${basics['title']}">Professional Title</p>
+    <hr class="hdr-rule"/>
+    <p class="hdr-contact">
+        <a th:href="'mailto:' + ${basics['email']}" th:text="${basics['email']}">email</a>
+        <th:block th:if="${basics['phone'] != null}">
+            <span class="sep">|</span>
+            <span th:text="${basics['phone']}">Phone</span>
+        </th:block>
+        <th:block th:if="${basics['linkedin'] != null}">
+            <span class="sep">|</span>
+            <a th:href="'https://' + ${basics['linkedin']}" th:text="${basics['linkedin']}">linkedin</a>
+        </th:block>
+        <th:block th:if="${basics['github'] != null}">
+            <span class="sep">|</span>
+            <a th:href="'https://' + ${basics['github']}" th:text="${basics['github']}">github</a>
+        </th:block>
+    </p>
+</div>
+
+<!-- ══ SUMMARY ═══════════════════════════════════════════════════ -->
+<div th:if="${basics['summary'] != null}">
+    <div class="sec-bar">Summary</div>
+    <p class="summary" th:text="${basics['summary']}">Summary text</p>
+</div>
+
+<!-- ══ WORK EXPERIENCE ═══════════════════════════════════════════ -->
+<div th:if="${experience != null and !#lists.isEmpty(experience)}">
+    <div class="sec-bar">Work Experience</div>
+    <div class="entry" th:each="exp : ${experience}">
+        <table class="entry-row">
+            <tbody>
+                <tr>
+                    <td class="entry-main">
+                        <span class="entry-bold"
+                              th:text="${exp['title']} + ', ' + ${exp['company']}">Role, Company</span>
+                    </td>
+                    <td class="entry-date" th:text="${exp['date']}">Date</td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Optional project/sub-heading inside an experience entry -->
+        <p class="entry-sub" th:if="${exp['project'] != null}" th:text="${exp['project']}"></p>
+        <ul class="bullets" th:if="${exp['highlights'] != null and !#lists.isEmpty(exp['highlights'])}">
+            <li th:each="hl : ${exp['highlights']}" th:text="${hl}">Highlight</li>
+        </ul>
+    </div>
+</div>
+
+<!-- ══ EDUCATION ══════════════════════════════════════════════════ -->
+<div th:if="${education != null and !#lists.isEmpty(education)}">
+    <div class="sec-bar">Education</div>
+    <div class="entry" th:each="edu : ${education}">
+        <table class="entry-row">
+            <tbody>
+                <tr>
+                    <td class="entry-main">
+                        <span class="entry-bold" th:text="${edu['degree']}">Degree</span>
+                    </td>
+                    <td class="entry-date" th:text="${edu['date']}">Date</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="entry-sub" th:if="${edu['institution'] != null}" th:text="${edu['institution']}">Institution</p>
+        <ul class="bullets" th:if="${edu['highlights'] != null and !#lists.isEmpty(edu['highlights'])}">
+            <li th:each="hl : ${edu['highlights']}" th:text="${hl}">Detail</li>
+        </ul>
+    </div>
+</div>
+
+<!-- ══ KEY SKILLS ════════════════════════════════════════════════ -->
+<div th:if="${skills != null and !#lists.isEmpty(skills)}">
+    <div class="sec-bar">Key Skills</div>
+    <table class="skills-grid">
+        <tbody>
+            <!--
+                Render one <tr> for every group of 3 skills.
+                iterStat.index % 3 == 0 marks the start of each row.
+                The two sibling cells are accessed via index+1 / index+2 with bounds checks.
+                NOTE: use "lt" (not <) since this template is processed in XML mode.
+            -->
+            <tr th:each="skill, s : ${skills}" th:if="${s.index % 3 == 0}">
+                <!-- Cell 0 – always present (we are at a multiple of 3) -->
+                <td class="skill-cell">
+                    <span>&#x2022;&#160;</span><span th:text="${skills[s.index]['category']}">Skill</span>
+                </td>
+                <!-- Cell 1 – present only when index+1 exists -->
+                <td class="skill-cell">
+                    <th:block th:if="${(s.index + 1) lt #lists.size(skills)}">
+                        <span>&#x2022;&#160;</span><span th:text="${skills[s.index + 1]['category']}">Skill</span>
+                    </th:block>
+                </td>
+                <!-- Cell 2 – present only when index+2 exists -->
+                <td class="skill-cell">
+                    <th:block th:if="${(s.index + 2) lt #lists.size(skills)}">
+                        <span>&#x2022;&#160;</span><span th:text="${skills[s.index + 2]['category']}">Skill</span>
+                    </th:block>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- ══ CERTIFICATIONS ════════════════════════════════════════════ -->
+<div th:if="${certifications != null and !#lists.isEmpty(certifications)}">
+    <div class="sec-bar">Certifications</div>
+    <table class="cert-row">
+        <tbody>
+            <tr th:each="cert : ${certifications}">
+                <td class="cert-name" th:text="${cert['name']}">Cert Name</td>
+                <td class="cert-issuer" th:text="${cert['issuer']}">Issuer</td>
+                <td class="cert-date" th:text="${cert['date']}">Date</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
