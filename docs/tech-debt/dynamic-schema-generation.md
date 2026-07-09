@@ -1,6 +1,6 @@
 # Dynamic Schema Generation & Handling
 
-Currently, the `CarouselData` class in the backend is a strongly-typed Java Record that perfectly maps to a specific JSON schema prompt (e.g., `gemini-carousel-prompt-1.md`). 
+Currently, the `CarouselData` class in the insta-api is a strongly-typed Java Record that perfectly maps to a specific JSON schema prompt (e.g., `gemini-carousel-prompt-1.md`). 
 
 If the JSON schema prompt changes or if multiple schemas are introduced (e.g., 3-slide quote, 5-slide tutorial, 8-slide deep dive), maintaining a static Java class becomes cumbersome. 
 
@@ -11,7 +11,7 @@ This document outlines two potential technical approaches to address this tech d
 Drop the strict `CarouselData` Java record entirely and parse the AI's response into a generic JSON tree or Map.
 
 ### Implementation Steps
-1. **Backend Changes:** Instead of using Spring AI's `BeanOutputConverter<CarouselData>`, use Jackson to parse the result into a `JsonNode` or a `Map<String, Object>`.
+1. **insta-api Changes:** Instead of using Spring AI's `BeanOutputConverter<CarouselData>`, use Jackson to parse the result into a `JsonNode` or a `Map<String, Object>`.
    ```java
    ObjectMapper mapper = new ObjectMapper();
    JsonNode carouselData = mapper.readTree(response); 

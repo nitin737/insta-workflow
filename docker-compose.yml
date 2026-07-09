@@ -1,7 +1,7 @@
 services:
-  app:
+  insta-api:
     build:
-      context: ./backend
+      context: ./insta-api
       dockerfile: Dockerfile
     pull_policy: build
     env_file:

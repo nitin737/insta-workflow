@@ -5,7 +5,7 @@ Based on the roadmap defined in `docs/specs/automation_spec.md`, here is the cur
 ## Phase 1: The "Glue" Layer
 **Goal**: Go from manual to semi-automated (Generate + Screenshot).
 
-- [x] Create a `/backend` folder and initialize a Spring Boot project.
+- [x] Create a `/insta-api` folder and initialize a Spring Boot project.
 - [x] Write a `GenerationService.java` that handles the Gemini API call logic (currently simulated with a placeholder).
 - [x] Implement the renderer. *(Note: Using Playwright + Thymeleaf directly in Java instead of a separate Node.js Puppeteer script)*.
 - [x] *Success Metric*: Able to trigger the generation and get 7 PNGs saved to disk locally.

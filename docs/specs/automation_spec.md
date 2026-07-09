@@ -76,8 +76,8 @@ Since your `GEMINI_PROMPT.md` is already perfect, we just wrap it in an API.
 
 **Current Approach: Server-Side HTML Templating (Recommended)**
 - The HTML template (e.g., `carousel-template.html`) is stored in the Spring Boot `src/main/resources` directory.
-- The Java backend takes the Gemini JSON output and injects it directly into the HTML template (using a template engine like Thymeleaf, Mustache, or simple string replacement).
-- The backend passes the pre-populated HTML to a headless browser (Puppeteer/Playwright or a Java wrapper like Playwright-Java).
+- The Java insta-api takes the Gemini JSON output and injects it directly into the HTML template (using a template engine like Thymeleaf, Mustache, or simple string replacement).
+- The insta-api passes the pre-populated HTML to a headless browser (Puppeteer/Playwright or a Java wrapper like Playwright-Java).
 - The headless browser renders the page, loops through the 7 slides, uses `page.screenshot()`, and generates `slide_1.png` to `slide_7.png`.
 
 **Previous Approaches (Archived for Record):**
@@ -119,7 +119,7 @@ Instagram does not allow direct binary uploads; it requires **public URLs**.
   {
     "media_type": "CAROUSEL",
     "children": ["id_1", "id_2", ..., "id_7"],
-    "caption": "Your AI-generated caption \n\n #golang #backend ..."
+    "caption": "Your AI-generated caption \n\n #golang #insta-api ..."
   }
   ```
   *Response*: `carousel_container_id`.
@@ -159,7 +159,7 @@ Instagram does not allow direct binary uploads; it requires **public URLs**.
 ### Phase 1: The "Glue" Layer (Week 1)
 **Goal**: Go from manual to semi-automated (Generate + Screenshot).
 
-1. Create a `/backend` folder and initialize a Spring Boot project.
+1. Create a `/insta-api` folder and initialize a Spring Boot project.
 2. Write a `GenerationService.java` that calls the Gemini API exactly as your prompt instructs.
 3. Write a `render.js` using Puppeteer that launches your HTML and screenshots all 7 slides.
 4. *Success Metric*: You run `./mvnw spring-boot:run -Dspring-boot.run.arguments="--topic=Channels"` and get 7 PNGs on your desktop automatically.
@@ -193,7 +193,7 @@ Instagram does not allow direct binary uploads; it requires **public URLs**.
 
 | Layer | Technology | Why |
 | :--- | :--- | :--- |
-| **Backend** | Java + Spring Boot | Enterprise-grade, robust ecosystem with Spring Web and strong type safety. |
+| **insta-api** | Java + Spring Boot | Enterprise-grade, robust ecosystem with Spring Web and strong type safety. |
 | **Queue** | Redis + RQ (or BullMQ) | Handles concurrent renders without dropping requests. |
 | **Rendering** | Puppeteer (Node) | Reuses your HTML/CSS perfectly. |
 | **Image Hosting** | Cloudinary | Converts PNGs to WebP automatically, provides instant CDN links required by Instagram. |

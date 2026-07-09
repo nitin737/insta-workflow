@@ -3,7 +3,7 @@
 This document details the high-level changes made to integrate Cloudinary for hosting generated Instagram carousel images.
 
 ## Overview
-As part of Phase 2 of our automation specification, the system has been updated to upload the AI-generated carousel images to Cloudinary instead of saving them locally. This enables the backend to supply public CDN URLs to the Instagram Graph API during the publishing phase.
+As part of Phase 2 of our automation specification, the system has been updated to upload the AI-generated carousel images to Cloudinary instead of saving them locally. This enables the insta-api to supply public CDN URLs to the Instagram Graph API during the publishing phase.
 
 ## Configuration Updates
 - **Dependency Added**: Added `com.cloudinary:cloudinary-http45` to `build.gradle`.
@@ -11,7 +11,7 @@ As part of Phase 2 of our automation specification, the system has been updated 
   - `cloudinary.cloud-name`
   - `cloudinary.api-key`
   - `cloudinary.api-secret`
-- **Environment Variables**: To run the backend, you must configure the following properties in your local `.env` or system environment:
+- **Environment Variables**: To run the insta-api, you must configure the following properties in your local `.env` or system environment:
   - `CLOUDINARY_CLOUD_NAME`
   - `CLOUDINARY_API_KEY`
   - `CLOUDINARY_API_SECRET`

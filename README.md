@@ -39,7 +39,7 @@
 
 **Insta-Workflow** is an end-to-end automated pipeline for generating engaging, high-quality Instagram carousel posts. It seamlessly bridges AI-driven content generation with beautiful, template-driven design.
 
-The system utilizes Gemini AI (via a Spring Boot backend) to generate post content and structures, while a standalone React and Tailwind CSS renderer converts design templates into static, portable HTML files. The Java backend then injects dynamic data into these templates and creates polished images ready for publishing.
+The system utilizes Gemini AI (via a Spring Boot insta-api) to generate post content and structures, while a standalone React and Tailwind CSS renderer converts design templates into static, portable HTML files. The Java insta-api then injects dynamic data into these templates and creates polished images ready for publishing.
 
 ### Built With
 
@@ -58,7 +58,7 @@ To get a local copy up and running, follow these simple steps.
 
 * [Node.js](https://nodejs.org/) (v18 or higher)
 * [Docker](https://www.docker.com/) and Docker Compose
-* Java 21+ (if running the backend locally without Docker)
+* Java 21+ (if running the insta-api locally without Docker)
 
 ### Installation
 
@@ -70,7 +70,7 @@ To get a local copy up and running, follow these simple steps.
    ```sh
    cp .env.example .env
    ```
-3. Start the Backend and Database services via Docker
+3. Start the insta-api and Database services via Docker
    ```sh
    docker-compose up -d --build
    ```
@@ -84,14 +84,14 @@ To get a local copy up and running, follow these simple steps.
 
 The repository is logically divided into two primary workspaces:
 
-* **`backend/`**: A Spring Boot application providing the core logic. It integrates with the Gemini API to orchestrate content creation, handles database interactions via PostgreSQL, and injects data into rendering templates.
+* **`insta-api/`**: A Spring Boot application providing the core logic. It integrates with the Gemini API to orchestrate content creation, handles database interactions via PostgreSQL, and injects data into rendering templates.
 * **`renderer/`**: A React-based templating engine. It builds self-contained HTML files populated with Tailwind CSS that serve as the visual layout for Instagram slides.
 
 ## Usage
 
 ### Rendering Templates
 
-The `renderer` project provides standard HTML previews and template generation for the Java backend. To test or build templates, navigate to the `renderer/` directory:
+The `renderer` project provides standard HTML previews and template generation for the Java insta-api. To test or build templates, navigate to the `renderer/` directory:
 
 ```bash
 # Standard mode (visual preview with sample.json)
