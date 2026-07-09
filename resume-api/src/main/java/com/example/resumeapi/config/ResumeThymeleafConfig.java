@@ -20,6 +20,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 public class ResumeThymeleafConfig {
 
     @Bean("resumeTemplateEngine")
+    @org.springframework.context.annotation.Primary
     public SpringTemplateEngine resumeTemplateEngine() {
         ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
         // classpath:templates/<templateId>/template.html
@@ -27,6 +28,23 @@ public class ResumeThymeleafConfig {
         resolver.setSuffix(".html");
         // XML mode → strict parsing, well-formed XHTML output for Flying Saucer
         resolver.setTemplateMode(TemplateMode.XML);
+        resolver.setCharacterEncoding("UTF-8");
+        resolver.setCacheable(false);
+
+        SpringTemplateEngine engine = new SpringTemplateEngine();
+        engine.setTemplateResolver(resolver);
+        engine.setEnableSpringELCompiler(false); // keep interpreted mode for Map access
+        return engine;
+    }
+
+    @Bean("resumeTextTemplateEngine")
+    public SpringTemplateEngine resumeTextTemplateEngine() {
+        ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
+        // classpath:templates/<templateId>/template.tex
+        resolver.setPrefix("templates/");
+        resolver.setSuffix(".tex");
+        // TEXT mode → for generating plain text/LaTeX output
+        resolver.setTemplateMode(TemplateMode.TEXT);
         resolver.setCharacterEncoding("UTF-8");
         resolver.setCacheable(false);
 

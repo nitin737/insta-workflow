@@ -77,68 +77,68 @@
 
 %----------HEADING----------
 \begin{center}
-    \textbf{\Huge {{ basics.name | latex_escape }}} \\ \vspace{2pt}
-    \textbf{\large {{ basics.title | latex_escape }}} \\ \vspace{2pt}
-    \small {{ basics.phone | latex_escape }} $|$ \href{mailto:{{ basics.email | latex_escape }}}{ {{ basics.email | latex_escape }} } 
-    {% if basics.linkedin %} $|$ \href{https://{{ basics.linkedin | latex_escape }}}{ {{ basics.linkedin | latex_escape }} } {% endif %}
-    {% if basics.github %} $|$ \href{https://{{ basics.github | latex_escape }}}{ {{ basics.github | latex_escape }} } {% endif %}
+    \textbf{\Huge [(${latexUtils.escape(basics['name'])})] } \\ \vspace{2pt}
+    \textbf{\large [(${latexUtils.escape(basics['title'])})] } \\ \vspace{2pt}
+    \small [(${latexUtils.escape(basics['phone'])})] $|$ \href{mailto:[(${latexUtils.escape(basics['email'])})]}{ [(${latexUtils.escape(basics['email'])})] } 
+    [# th:if="${basics['linkedin']}"] $|$ \href{https://[(${latexUtils.escape(basics['linkedin'])})]}{ [(${latexUtils.escape(basics['linkedin'])})] } [/]
+    [# th:if="${basics['github']}"] $|$ \href{https://[(${latexUtils.escape(basics['github'])})]}{ [(${latexUtils.escape(basics['github'])})] } [/]
 \end{center}
 
 %----------PROFESSIONAL SUMMARY----------
 \section{Professional Summary}
 \begin{itemize}[leftmargin=0.15in, label={}]
     \small{\item{
-    {{ basics.summary | latex_escape }}
+    [(${latexUtils.escape(basics['summary'])})]
     }}
 \end{itemize}
 
 %-----------TECHNICAL SKILLS-----------
-{% if skills %}
+[# th:if="${skills}"]
 \section{Technical Skills}
 \begin{itemize}[leftmargin=0.15in, label={}]
     \small{\item{
-    {% for skill in skills %}
-    \textbf{ {{ skill.category | latex_escape }}:} {{ skill.details | latex_escape }} {% if not loop.last %}\\ {% endif %}
-    {% endfor %}
+    [# th:each="entry : ${skills}"]
+    \textbf{ [(${latexUtils.escape(entry.key)})]:} [(${latexUtils.escape(entry.value)})] [# th:if="${!entryStat.last}"]\\ [/]
+    [/]
     }}
 \end{itemize}
-{% endif %}
+[/]
 
 %-----------PROFESSIONAL EXPERIENCE-----------
 \section{Professional Experience}
   \resumeSubHeadingListStart
-    {% for exp in experience %}
+    [# th:each="exp : ${experience}"]
     \resumeSubheading
-      { {{ exp.company | latex_escape }} }{ {{ exp.location | latex_escape }} }
-      { {{ exp.title | latex_escape }} }{ {{ exp.date | latex_escape }} }
+      { [(${latexUtils.escape(exp['company'])})] }{ [(${latexUtils.escape(exp['location'])})] }
+      { [(${latexUtils.escape(exp['title'])})] }{ [(${latexUtils.escape(exp['date'])})] }
       \resumeItemListStart
-        {% for hl in exp.highlights %}
-        \resumeItem{ {{ hl | latex_escape }} }
-        {% endfor %}
+        [# th:each="hl : ${exp['highlights']}"]
+        \resumeItem{ [(${latexUtils.escape(hl)})] }
+        [/]
       \resumeItemListEnd
-    {% endfor %}
+    [/]
   \resumeSubHeadingListEnd
 
 %-----------EDUCATION-----------
 \section{Education}
   \resumeSubHeadingListStart
-    {% for edu in education %}
+    [# th:each="edu : ${education}"]
     \resumeSubheading
-      { {{ edu.institution | latex_escape }} }{ {{ edu.location | latex_escape }} }
-      { {{ edu.degree | latex_escape }} }{ {{ edu.date | latex_escape }} }
-    {% endfor %}
+      { [(${latexUtils.escape(edu['institution'])})] }{ [(${latexUtils.escape(edu['location'])})] }
+      { [(${latexUtils.escape(edu['degree'])})] }{ [(${latexUtils.escape(edu['date'])})] }
+    [/]
   \resumeSubHeadingListEnd
 
 %-----------CERTIFICATIONS-----------
-{% if certifications %}
+[# th:if="${certifications}"]
 \section{Certifications}
   \resumeSubHeadingListStart
-    {% for cert in certifications %}
+    [# th:each="cert : ${certifications}"]
     \resumeProjectHeading
-      {\textbf{ {{ cert.name | latex_escape }} } $|$ \emph{ {{ cert.issuer | latex_escape }} }}{ {{ cert.date | latex_escape }} }
-    {% endfor %}
+      {\textbf{ [(${latexUtils.escape(cert['name'])})] } $|$ \emph{ [(${latexUtils.escape(cert['issuer'])})] }}{ [(${latexUtils.escape(cert['date'])})] }
+    [/]
   \resumeSubHeadingListEnd
-{% endif %}
+[/]
 
 %-------------------------------------------
 \end{document}

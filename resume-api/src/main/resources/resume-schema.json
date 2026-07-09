@@ -17,14 +17,9 @@
       "required": ["name", "title", "email"]
     },
     "skills": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "category": { "type": "string" },
-          "details": { "type": "string" }
-        },
-        "required": ["category", "details"]
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
       }
     },
     "experience": {

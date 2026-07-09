@@ -6,5 +6,12 @@ import jakarta.validation.constraints.NotNull;
 
 public record GenerateRequest(
     @NotBlank(message = "templateId is mandatory") String templateId,
-    @NotNull(message = "data is mandatory") JsonNode data
-) {}
+    @NotNull(message = "data is mandatory") JsonNode data,
+    EngineType engine
+) {
+    public GenerateRequest {
+        if (engine == null) {
+            engine = EngineType.HTML;
+        }
+    }
+}

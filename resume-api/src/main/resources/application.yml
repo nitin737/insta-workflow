@@ -24,7 +24,7 @@ bucket4j:
   enabled: true
   filters:
     - cache-name: rate-limit-buckets
-      url: /api/v1/resumes/generate
+      url: /api/v1/resumes
       rate: 20
       rate-interval: 1
       rate-interval-unit: minutes

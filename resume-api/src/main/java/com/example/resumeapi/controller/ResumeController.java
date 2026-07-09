@@ -20,9 +20,9 @@ public class ResumeController {
         this.resumeService = resumeService;
     }
 
-    @PostMapping("/generate")
+    @PostMapping
     public CompletableFuture<ResponseEntity<byte[]>> generate(@Valid @RequestBody GenerateRequest request) {
-        return resumeService.generatePdf(request.templateId(), request.data())
+        return resumeService.generatePdf(request.templateId(), request.data(), request.engine())
                 .thenApply(pdfBytes -> ResponseEntity.ok()
                         .contentType(MediaType.APPLICATION_PDF)
                         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"resume.pdf\"")
