@@ -28,3 +28,9 @@ bucket4j:
       rate: 20
       rate-interval: 1
       rate-interval-unit: minutes
+
+logging:
+  level:
+    root: WARN
+    com.example.resumeapi: INFO
+    org.springframework.web: WARN
