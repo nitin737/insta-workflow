@@ -6,7 +6,8 @@
 
 \usepackage{titlesec}
 \usepackage{marvosym}
-\usepackage[usenames,dvipsnames]{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+\definecolor{primary}{HTML}{[(${theme.primaryColor != null ? theme.primaryColor : '000000'})]}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
 \usepackage{fancyhdr}
@@ -23,14 +24,14 @@
 
 % Sections formatting
 \titleformat{\section}{
-  \vspace{-4pt}\raggedright\large\bfseries
-}{}{0em}{}[\color{black}\titlerule \vspace{6pt}]
+  \vspace{-4pt}\raggedright\large\bfseries\color{primary}
+}{}{0em}{}[\color{primary}\titlerule \vspace{6pt}]
 
 \begin{document}
 
 \begin{flushleft}
-    {\Huge \textbf{\uppercase{[(${latexUtils.escape(basics['name'])})]}}} \\ \vspace{4pt}
-    {\Large \uppercase{[(${latexUtils.escape(basics['title'])})]}}
+    {\Huge \textbf{\color{primary}\uppercase{[(${latexUtils.escape(basics['name'])})]}}} \\ \vspace{4pt}
+    {\Large \color{primary}\uppercase{[(${latexUtils.escape(basics['title'])})]}}
 \end{flushleft}
 \vspace{10pt}
 

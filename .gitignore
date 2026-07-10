@@ -46,3 +46,6 @@ build/
 *.log
 *.sqlite
 .env
+
+
+node_modules/

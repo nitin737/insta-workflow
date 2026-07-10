@@ -32,5 +32,5 @@ bucket4j:
 logging:
   level:
     root: WARN
-    com.example.resumeapi: INFO
+    com.instaworkflow.resumeapi: INFO
     org.springframework.web: WARN
