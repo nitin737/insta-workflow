@@ -12,8 +12,12 @@ import org.springframework.core.io.Resource;
 
 import java.util.concurrent.CompletableFuture;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/resumes")
+@Tag(name = "Resume API", description = "Endpoints for managing and generating resumes")
 public class ResumeController {
 
     private final ResumeService resumeService;
@@ -25,6 +29,7 @@ public class ResumeController {
     }
 
     @PostMapping
+    @Operation(summary = "Generate a resume PDF", description = "Generates a resume PDF synchronously from the provided request data")
     public CompletableFuture<ResponseEntity<byte[]>> generate(@Valid @RequestBody GenerateRequest request) {
         return resumeService.generatePdf(request.templateId(), request.data(), request.engine(), request.theme())
                 .thenApply(pdfBytes -> ResponseEntity.ok()
@@ -34,6 +39,7 @@ public class ResumeController {
     }
 
     @PostMapping("/data")
+    @Operation(summary = "Save resume data", description = "Saves resume data payload for the authenticated tenant")
     public ResponseEntity<java.util.Map<String, java.util.UUID>> saveResumeData(
             @RequestBody com.fasterxml.jackson.databind.JsonNode payload,
             org.springframework.security.core.Authentication authentication) {
@@ -43,6 +49,7 @@ public class ResumeController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get resume data", description = "Retrieves previously saved resume data by ID")
     public ResponseEntity<com.fasterxml.jackson.databind.JsonNode> getResumeData(
             @PathVariable java.util.UUID id,
             org.springframework.security.core.Authentication authentication) {
@@ -53,6 +60,7 @@ public class ResumeController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update resume data", description = "Updates an existing resume data record by ID")
     public ResponseEntity<Void> updateResumeData(
             @PathVariable java.util.UUID id,
             @RequestBody com.fasterxml.jackson.databind.JsonNode payload,
@@ -63,6 +71,7 @@ public class ResumeController {
     }
 
     @PostMapping("/{id}/generate")
+    @Operation(summary = "Generate resume from saved data", description = "Generates a resume PDF using previously saved data")
     public CompletableFuture<ResponseEntity<byte[]>> generateFromSaved(
             @PathVariable java.util.UUID id,
             @RequestParam String templateId,
@@ -79,6 +88,7 @@ public class ResumeController {
     }
 
     @PostMapping("/generate-async")
+    @Operation(summary = "Generate resume asynchronously", description = "Queues a request to generate a resume asynchronously")
     public ResponseEntity<Void> generateAsync(
             @Valid @RequestBody com.instaworkflow.resumeapi.model.AsyncGenerateRequest request,
             org.springframework.security.core.Authentication authentication) {
@@ -90,6 +100,7 @@ public class ResumeController {
     }
 
     @GetMapping(value = "/schema", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get resume schema", description = "Retrieves the JSON schema for resume data validation")
     public ResponseEntity<Resource> getSchema() {
         Resource resource = new ClassPathResource("resume-schema.json");
         if (resource.exists()) {
